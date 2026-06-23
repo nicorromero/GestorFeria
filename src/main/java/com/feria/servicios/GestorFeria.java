@@ -9,11 +9,13 @@ public class GestorFeria {
     public List<Emprendedor> emprendedores;
     public List<Producto> productos;
     public List<Venta> ventas;
+    private final IReportes servicioReportes;
 
-    public GestorFeria() {
+    public GestorFeria(IReportes servicioReportes) {
         emprendedores = new ArrayList<>();
         productos = new ArrayList<>();
         ventas = new ArrayList<>();
+        this.servicioReportes = servicioReportes;
     }
     
     public Emprendedor buscarEmprendedorPorId(String idEmprendedor) {

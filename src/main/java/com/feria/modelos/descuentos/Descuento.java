@@ -9,5 +9,5 @@ package com.feria.modelos.descuentos;
  * @author nicor
  */
 public interface Descuento {
-    
+    double calcularMontoDescuento(double subtotal, int cantidad);
 }

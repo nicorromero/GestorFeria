@@ -2,8 +2,8 @@ package com.feria.servicios;
 
 import com.feria.modelos.*;
 
-public class Reportes {
-
+public class Reportes implements IReportes {
+    @Override
     public String generarReportePorCategoria(GestorFeria gestor, String categoria) {
         String reporte = "=== REPORTE DE EMPRENDEDORES - CATEGORÍA: " + categoria + " ===\n";
 
@@ -16,7 +16,7 @@ public class Reportes {
 
         return reporte;
     }
-
+    @Override
     public String generarReportePorCategoriaAlternativo(GestorFeria gestor, String cat) {
         String resultado = "REPORTE CATEGORIA " + cat + "\n";
         for (Emprendedor e : gestor.emprendedores) {
@@ -26,15 +26,15 @@ public class Reportes {
         }
         return resultado;
     }
-
+    @Override
     public double calcularVentasTotales(GestorFeria gestor) {
         double total = 0;
         for (Venta v : gestor.ventas) {
-            total += v.calcularTotalConDescuento();
+            total += v.calcularTotal();
         }
         return total;
     }
-
+    @Override
     public void imprimirResumenEjecutivo(GestorFeria gestor) {
         System.out.println("========== RESUMEN EJECUTIVO ==========");
         System.out.println("Total emprendedores: " + gestor.emprendedores.size());
@@ -43,7 +43,7 @@ public class Reportes {
 
         double totalVentas = 0;
         for (Venta v : gestor.ventas) {
-            totalVentas += v.calcularTotalConDescuento();
+            totalVentas += v.calcularTotal();
         }
         System.out.println("Total facturado: $" + totalVentas);
 

@@ -9,10 +9,8 @@ package com.feria.modelos;
  * @author nicor
  */
 public enum Categoria {
-
     COMIDA, 
     ARTESANIA, 
     TECNOLOGIA, 
-    ROPA
-      
+    ROPA    
 }
