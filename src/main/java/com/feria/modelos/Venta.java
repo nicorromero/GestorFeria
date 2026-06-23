@@ -9,18 +9,18 @@ import java.util.List;
 public class Venta {
 
     private String idVenta;
-    private Emprendedor emprendedorId;
-    private Producto productoNombre;
+    private Emprendedor emprendedor;
+    private Producto producto;
     private int cantidad;
     private double precioUnitario;
     private String fecha;
     private boolean pagoRealizado;
     private List<Descuento> estrategiasDescuento;
 
-    public Venta(String idVenta, Emprendedor empId, Producto prodNombre, int cant, double precioUnit, String fecha) {
+    public Venta(String idVenta, Emprendedor emp, Producto prodNombre, int cant, double precioUnit, String fecha) {
         this.idVenta = idVenta;
-        this.emprendedorId = empId;
-        this.productoNombre = prodNombre;
+        this.emprendedor = emp;
+        this.producto = prodNombre;
         this.cantidad = cant;
         this.precioUnitario = precioUnit;
         this.fecha = fecha;
@@ -59,13 +59,11 @@ public class Venta {
         this.pagoRealizado = true; 
     }
 
-    
-
     public String generarRecibo() {
         String recibo = "=== RECIBO DE VENTA ===\n";
         recibo += "Venta ID: " + idVenta + "\n";
         recibo += "Fecha: " + fecha + "\n";
-        recibo += "Producto: " + productoNombre + "\n";
+        recibo += "Producto: " + producto + "\n";
         recibo += "Cantidad: " + cantidad + "\n";
         recibo += "Precio unitario: $" + precioUnitario + "\n";
         recibo += "Total con descuentos: $" + calcularTotal() + "\n";

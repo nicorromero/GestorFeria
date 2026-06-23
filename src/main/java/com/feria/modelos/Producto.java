@@ -7,10 +7,10 @@ public class Producto {
     public String nombre;
     public double precio;
     public int stock;
-    public String categoriaProducto;  // duplicado con la categoría del emprendedor
+    public Categoria categoriaProducto;  // duplicado con la categoría del emprendedor
     public String idEmprendedor;
 
-    public Producto(String nombre, double precio, int stock, String categoriaProd, String idEmprendedor) {
+    public Producto(String nombre, double precio, int stock, Categoria categoriaProd, String idEmprendedor) {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
