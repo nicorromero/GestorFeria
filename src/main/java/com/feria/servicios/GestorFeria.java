@@ -96,10 +96,10 @@ public class GestorFeria {
     
         for (Venta v : ventasACobrar) {
             // Al usar 'v.calcularTotalConDescuento()' delegamos la matemática a Venta (Tell, Don't Ask)
-            totalRecaudadoEnLote += v.calcularTotalConDescuento();
+            totalRecaudadoEnLote += v.calcularTotal();
         
             // Delegamos el cambio de estado mediante un método explícito de la Venta
-            v.setPagoRealizado(true); 
+            v.marcarComoPagada(); 
         }
     
         return totalRecaudadoEnLote;
