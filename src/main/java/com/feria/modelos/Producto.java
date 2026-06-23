@@ -8,14 +8,22 @@ public class Producto {
     public double precio;
     public int stock;
     public String categoriaProducto;  // duplicado con la categoría del emprendedor
-    public String emprendedorId;      // referencia inconsistente
+    public String idEmprendedor;
 
-    public Producto(String nombre, double precio, int stock, String categoriaProd, String empId) {
+    public Producto(String nombre, double precio, int stock, String categoriaProd, String idEmprendedor) {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
         this.categoriaProducto = categoriaProd;
-        this.emprendedorId = empId;
+        this.idEmprendedor = idEmprendedor;
+    }
+    
+
+    public void vender(int cantidad) {
+        if (this.stock < cantidad) {
+            throw new IllegalStateException("Error: Stock insuficiente. Stock actual: " + this.stock);
+        }
+    this.stock -= cantidad; 
     }
 
 

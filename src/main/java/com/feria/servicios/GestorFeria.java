@@ -15,66 +15,63 @@ public class GestorFeria {
         productos = new ArrayList<>();
         ventas = new ArrayList<>();
     }
-
-    public void registrarEmprendedorConProductos(String nombre, String id, String telefono, 
-                                                   String email, String categoria, 
-                                                   List<String> nombresProductos, 
-                                                   List<Double> precios, 
-                                                   List<Integer> stocks) {
-
-        Emprendedor e = new Emprendedor(nombre, id, telefono, email, categoria);
-
-        if (nombre == null || nombre.length() < 2) {
-            System.out.println("Error: nombre inválido");
-            return;
-        }
-        if (email == null || !email.contains("@")) {
-            System.out.println("Error: email inválido");
-            return;
-        }
-
-        for (int i = 0; i < nombresProductos.size(); i++) {
-            Producto p = new Producto(nombresProductos.get(i), precios.get(i), stocks.get(i), categoria, id);
-            e.agregarProducto(p);
-            productos.add(p);
-        }
-
-        emprendedores.add(e);
-        System.out.println("Emprendedor registrado con " + nombresProductos.size() + " productos");
-    }
-
-    public void registrarVenta(String idVenta, String empId, String prodNombre, int cantidad, double precio, String fecha) {
-
-        Producto productoEncontrado = null;
-        for (Producto p : productos) {
-            if (p.nombre.equals(prodNombre) && p.emprendedorId.equals(empId)) {
-                productoEncontrado = p;
-                break;
+    
+    public Emprendedor buscarEmprendedorPorId(String idEmprendedor) {
+        for (Emprendedor e : this.emprendedores) {  
+            if (e.idEmprendedor.equals(idEmprendedor)) {
+                return e; 
             }
         }
+        throw new IllegalArgumentException("Error: No existe un emprendedor registrado con el ID '" + idEmprendedor + "'.");
+    }
 
-        if (productoEncontrado == null) {
-            System.out.println("Producto no encontrado");
-            return;
+        public Producto buscarProductoporNombre(String nombreProducto) {
+        for (Producto p : this.productos) {  
+            if (p.nombre.equals(nombreProducto)) {
+                return p; 
+            }
         }
+        throw new IllegalArgumentException("Error: No existe un producto registrado con el nombre '" + nombreProducto + "'.");
+    }   
 
-        if (productoEncontrado.stock < cantidad) {
-            System.out.println("Stock insuficiente");
-            return;
+    public void registrarEmprendedor (String nombre, String id, String telefono,
+                                                    String email, String categoria){
+        
+        if (nombre == null || nombre.length() < 2) {
+            throw new IllegalArgumentException("El nombre del emprendedor no puede estar vacío o ser invalido.");
         }
+        if (email == null || !email.contains("@")) {
+            throw new IllegalArgumentException("El ID del emprendedor es obligatorio.");
+        }    
+        
+        Emprendedor e = new Emprendedor(nombre, id, telefono, email, categoria);
+        emprendedores.add(e);
+    }
+        
+    public void registrarProductosparaEmprendedor(String idEmprendedor, String nombre, double precio, int stock){
+        
+        Emprendedor e = buscarEmprendedorPorId(idEmprendedor);
+        Producto p = new Producto(nombre, precio, stock, e.categoriaEmprendedor, e.idEmprendedor);
+        e.agregarProducto(p);
+        this.productos.add(p);
+     
+    }
 
-        Venta v = new Venta(idVenta, empId, prodNombre, cantidad, precio, fecha);
-        ventas.add(v);
+    public void registrarVenta(String idVenta, String empId, String prodNombre, int cantidad, double precio, String fecha ) {
 
-        productoEncontrado.stock -= cantidad;
-
-        System.out.println("Venta registrada. Nuevo stock: " + productoEncontrado.stock);
+        Producto productoEncontrado = buscarProductoporNombre(prodNombre);
+        productoEncontrado.vender(cantidad);
+        
+        Emprendedor emprendedorEncontrado = buscarEmprendedorPorId(empId);
+        
+        Venta venta = new Venta(idVenta, emprendedorEncontrado, productoEncontrado, cantidad, precio, fecha);
+        ventas.add(venta);
     }
 
     public List<Emprendedor> getEmprendedoresConStockBajo() {
         List<Emprendedor> resultado = new ArrayList<>();
         for (Emprendedor e : emprendedores) {
-            for (Producto p : e.prods) {
+            for (Producto p : e.productosEmprendedor) {
                 if (p.hayStockBajo()) {
                     resultado.add(e);
                     break;
@@ -84,16 +81,27 @@ public class GestorFeria {
         return resultado;
     }
 
-    public void procesarVentasPendientesYCobrar() {
-        double totalRecaudado = 0;
-        for (Venta v : ventas) {
-            if (!v.pagoRealizado) {
-                double monto = v.calcularTotalConDescuento();
-                totalRecaudado += monto;
-                v.pagoRealizado = true;
-                System.out.println("Cobrada venta " + v.idVenta + " por $" + monto);
+    public List<Venta> obtenerVentasPendientes() {
+        List<Venta> pendientes = new ArrayList<>();
+            for (Venta v : ventas) {
+                if (!v.isPagoRealizado()) { 
+                pendientes.add(v);
             }
         }
-        System.out.println("Total recaudado: $" + totalRecaudado);
+        return pendientes;
+    }
+    
+    public double cobrarVentas(List<Venta> ventasACobrar) {
+        double totalRecaudadoEnLote = 0;
+    
+        for (Venta v : ventasACobrar) {
+            // Al usar 'v.calcularTotalConDescuento()' delegamos la matemática a Venta (Tell, Don't Ask)
+            totalRecaudadoEnLote += v.calcularTotalConDescuento();
+        
+            // Delegamos el cambio de estado mediante un método explícito de la Venta
+            v.setPagoRealizado(true); 
+        }
+    
+        return totalRecaudadoEnLote;
     }
 }

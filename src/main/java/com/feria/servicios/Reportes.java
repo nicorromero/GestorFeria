@@ -8,7 +8,7 @@ public class Reportes {
         String reporte = "=== REPORTE DE EMPRENDEDORES - CATEGORÍA: " + categoria + " ===\n";
 
         for (Emprendedor e : gestor.emprendedores) {
-            if (e.cat.equals(categoria)) {
+            if (e.categoriaEmprendedor.equals(categoria)) {
                 reporte += e.mostrarInfoYValidar();
                 reporte += "---\n";
             }
@@ -20,7 +20,7 @@ public class Reportes {
     public String generarReportePorCategoriaAlternativo(GestorFeria gestor, String cat) {
         String resultado = "REPORTE CATEGORIA " + cat + "\n";
         for (Emprendedor e : gestor.emprendedores) {
-            if (e.cat.equals(cat)) {
+            if (e.categoriaEmprendedor.equals(cat)) {
                 resultado += e.getNombre() + "\n";
             }
         }
@@ -49,7 +49,7 @@ public class Reportes {
 
         int emprendedoresStockBajo = 0;
         for (Emprendedor e : gestor.emprendedores) {
-            for (Producto p : e.prods) {
+            for (Producto p : e.productosEmprendedor) {
                 if (p.stock < 5) {
                     emprendedoresStockBajo++;
                     break;

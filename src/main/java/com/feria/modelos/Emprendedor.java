@@ -6,45 +6,42 @@ import java.util.List;
 
 public class Emprendedor {
 
-    public String n;      // nombre
-    public String id;     // identificador
-    public String t;      // teléfono
-    public String m;      // email
-    public String cat;    // categoria: comida, artesania, tecnologia, ropa
-
-
-    public List<Producto> prods;
+    public String nombreEmprendedor;      // nombre
+    public String idEmprendedor;     // identificador
+    public String telefonoEmprendedor;      // teléfono
+    public String emailEmprendedor;      // email
+    public String categoriaEmprendedor;    // categoria: comida, artesania, tecnologia, ropa
+    public List<Producto> productosEmprendedor;
 
     public Emprendedor(String nom, String id, String tel, String mail, String categoria) {
-        this.n = nom;
-        this.id = id;
-        this.t = tel;
-        this.m = mail;
-        this.cat = categoria;
-        this.prods = new ArrayList<>();
+        this.nombreEmprendedor = nom;
+        this.idEmprendedor = id;
+        this.telefonoEmprendedor = tel;
+        this.emailEmprendedor = mail;
+        this.categoriaEmprendedor = categoria;
+        this.productosEmprendedor = new ArrayList<>();
     }
 
 
     public String mostrarInfoYValidar() {
-        String info = "Emprendedor: " + n + "\n";
-        info += "ID: " + id + "\n";
-        info += "Contacto: " + t + " | " + m + "\n";
-        info += "Categoría: " + cat + "\n";
+        String info = "Emprendedor: " + nombreEmprendedor + "\n";
+        info += "ID: " + idEmprendedor + "\n";
+        info += "Contacto: " + telefonoEmprendedor + " | " + emailEmprendedor + "\n";
+        info += "Categoría: " + categoriaEmprendedor + "\n";
 
         // VALIDACIONES
-        if (n == null || n.length() < 2) {
+        if (nombreEmprendedor == null || nombreEmprendedor.length() < 2) {
             info += "⚠️ NOMBRE DEMASIADO CORTO\n";
         }
-        if (m == null || !m.contains("@")) {
+        if (emailEmprendedor == null || !emailEmprendedor.contains("@")) {
             info += "⚠️ EMAIL INVÁLIDO\n";
         }
-        if (cat == null || (!cat.equals("comida") && !cat.equals("artesania") && 
-                           !cat.equals("tecnologia") && !cat.equals("ropa"))) {
+        if (categoriaEmprendedor == null || (!categoriaEmprendedor.equals("comida") && !categoriaEmprendedor.equals("artesania") && 
+                           !categoriaEmprendedor.equals("tecnologia") && !categoriaEmprendedor.equals("ropa"))) {
             info += "⚠️ CATEGORÍA DESCONOCIDA\n";
         }
-
         info += "Productos:\n";
-        for (Producto p : prods) {
+        for (Producto p : productosEmprendedor) {
             info += "  - " + p.nombre + " ($" + p.precio + ")\n";
         }
 
@@ -54,26 +51,34 @@ public class Emprendedor {
 
     public boolean validarCompleto() {
         boolean valido = true;
-        if (n == null || n.length() < 2) valido = false;
-        if (m == null || !m.contains("@")) valido = false;
-        if (cat == null || (!cat.equals("comida") && !cat.equals("artesania") && 
-                           !cat.equals("tecnologia") && !cat.equals("ropa"))) valido = false;
+        if (nombreEmprendedor == null || nombreEmprendedor.length() < 2) valido = false;
+        if (emailEmprendedor == null || !emailEmprendedor.contains("@")) valido = false;
+        if (categoriaEmprendedor == null || (!categoriaEmprendedor.equals("comida") && !categoriaEmprendedor.equals("artesania") && 
+                           !categoriaEmprendedor.equals("tecnologia") && !categoriaEmprendedor.equals("ropa"))) valido = false;
         return valido;
     }
 
 
     public String getNombre() {
-        return n;
+        return nombreEmprendedor;
     }
 
     public void agregarProducto(Producto p) {
-        prods.add(p);
+        productosEmprendedor.add(p);
     }
 
+    public String getIdEmprendedor() {
+        return idEmprendedor;
+    }
 
+    public String getCategoriaEmprendedor() {
+        return categoriaEmprendedor;
+    }
+
+    
     public int calcularValorTotalStock() {
         int total = 0;
-        for (Producto p : prods) {
+        for (Producto p : productosEmprendedor) {
             total += p.precio * p.stock;
         }
         return total;

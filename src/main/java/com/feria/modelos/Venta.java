@@ -3,14 +3,14 @@ package com.feria.modelos;
 public class Venta {
 
     public String idVenta;
-    public String emprendedorId;
+    public Emprendedor emprendedorId;
     public String productoNombre;
     public int cantidad;
     public double precioUnitario;
     public String fecha;
     public boolean pagoRealizado;
 
-    public Venta(String idVenta, String empId, String prodNombre, int cant, double precioUnit, String fecha) {
+    public Venta(String idVenta, Emprendedor empId, String prodNombre, int cant, double precioUnit, String fecha) {
         this.idVenta = idVenta;
         this.emprendedorId = empId;
         this.productoNombre = prodNombre;
@@ -34,10 +34,10 @@ public class Venta {
         return total;
     }
 
-    public void registrarPagoYActualizarStock(Producto p) {
+    public void registrarPagoYActualizarStock(Producto producto) {
         this.pagoRealizado = true;
-        if (p != null) {
-            p.stock = p.stock - this.cantidad;
+        if (producto != null) {
+            producto.stock = producto.stock - this.cantidad;
         }
         System.out.println("Pago registrado y stock actualizado");
     }
