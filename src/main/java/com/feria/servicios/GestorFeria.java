@@ -50,10 +50,10 @@ public class GestorFeria {
         emprendedores.add(e);
     }
         
-    public void registrarProductosparaEmprendedor(String idEmprendedor, String nombre, double precio, int stock){
+    public void registrarProductosparaEmprendedor(String idEmprendedor, String nombre, double precio, int stock, Categoria categoria){
         
         Emprendedor e = buscarEmprendedorPorId(idEmprendedor);
-        Producto p = new Producto(nombre, precio, stock, e.categoriaEmprendedor, e.idEmprendedor);
+        Producto p = new Producto(nombre, precio, stock, categoria, e.idEmprendedor);
         e.agregarProducto(p);
         this.productos.add(p);
      
@@ -103,7 +103,8 @@ public class GestorFeria {
             // Delegamos el cambio de estado mediante un método explícito de la Venta
             v.marcarComoPagada(); 
         }
-    
+        // Dentro de cobrarVentas en GestorFeria.java:
+        this.servicioReportes.imprimirResumenEjecutivo(this);
         return totalRecaudadoEnLote;
     }
 }

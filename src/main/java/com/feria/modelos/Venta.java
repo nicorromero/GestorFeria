@@ -18,6 +18,9 @@ public class Venta {
     private List<Descuento> estrategiasDescuento;
 
     public Venta(String idVenta, Emprendedor emp, Producto prodNombre, int cant, double precioUnit, String fecha) {
+        if(cant <= 0){
+            throw new IllegalArgumentException("la cantidad no puede ser negativa");
+        }
         this.idVenta = idVenta;
         this.emprendedor = emp;
         this.producto = prodNombre;

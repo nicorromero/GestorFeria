@@ -1,0 +1,36 @@
+name: Integracion Continua (CI) - Feria Emprendedores
+
+# 1. ¿Cuándo se ejecuta el pipeline? (Triggers)
+# Se ejecutará cada vez que alguien haga un 'push' o un 'pull_request' a las ramas principales.
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    # El servidor en la nube donde correrá (Ubuntu Linux)
+    runs-on: ubuntu-latest
+
+    steps:
+    # Paso 1: Descargar el código de tu repositorio
+    - name: Descargar el código (Checkout)
+      uses: actions/checkout@v4
+
+    # Paso 2: Preparar el entorno con Java (Por la consola que mostraste, usas Java 17 como target)
+    - name: Configurar Java JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    # Paso 3: BUILD (Compilar y verificar dependencias del pom.xml)
+    - name: Etapa de Build (Compilación)
+      run: mvn clean compile --no-transfer-progress
+
+    # Paso 4: TEST (Ejecutar JUnit y Mockito)
+    # Si alguna prueba falla, este comando fallará y pondrá todo el pipeline en ROJO.
+    - name: Etapa de Test (Pruebas Automatizadas)
+      run: mvn test --no-transfer-progress

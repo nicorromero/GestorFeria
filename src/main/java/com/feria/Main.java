@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
+        /*
         GestorFeria gestor = new GestorFeria();
         Reportes reportes = new Reportes();
         try {
@@ -47,5 +48,6 @@ public class Main {
         //corregir de aca para abajo
          System.out.println("Emprendedor Ana válido? " + Validadores.validarEmprendedorCompleto(gestor.emprendedores.get(0)));
         System.out.println(gestor.emprendedores.get(0).mostrarInfoYValidar());
+        */
     }
 }

@@ -9,7 +9,7 @@ public class Reportes implements IReportes {
 
         for (Emprendedor e : gestor.emprendedores) {
             if (e.categoriaEmprendedor.equals(categoria)) {
-                reporte += e.mostrarInfoYValidar();
+                reporte += e.mostrarInfo();
                 reporte += "---\n";
             }
         }
